@@ -200,6 +200,134 @@
     }
     .supporter-content p { font-size: 0.95rem; color: rgba(237, 232, 223, 0.8); }
 
+    /* Artist Tabs + Songs */
+    .artist-tabs {
+      display: inline-flex;
+      gap: 0.4rem;
+      background: var(--dark2);
+      border: 1px solid var(--dark3);
+      border-radius: 999px;
+      padding: 0.35rem;
+      margin-bottom: 1.5rem;
+    }
+    .artist-tab {
+      border: none;
+      border-radius: 999px;
+      background: transparent;
+      color: var(--muted);
+      cursor: pointer;
+      font-family: 'DM Sans', sans-serif;
+      font-weight: 700;
+      padding: 0.65rem 1rem;
+      transition: all 0.2s;
+    }
+    .artist-tab.active,
+    .artist-tab:hover {
+      background: var(--gold);
+      color: var(--dark);
+    }
+    .tab-panel { display: none; }
+    .tab-panel.active { display: block; }
+    .song-list {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+      margin-bottom: 3rem;
+    }
+    .song-card {
+      display: grid;
+      grid-template-columns: 86px 1fr;
+      gap: 1.1rem;
+      background: var(--dark2);
+      border: 1px solid var(--dark3);
+      border-radius: 14px;
+      padding: 1rem;
+      transition: all 0.2s;
+    }
+    .song-card:hover {
+      border-color: var(--gold);
+      transform: translateY(-2px);
+      box-shadow: 0 10px 20px rgba(0,0,0,0.35);
+    }
+    .song-art {
+      width: 86px;
+      height: 86px;
+      border-radius: 10px;
+      background: linear-gradient(135deg, rgba(201,168,76,0.24), rgba(237,232,223,0.08));
+      border: 1px solid rgba(255,255,255,0.06);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--gold);
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 1.8rem;
+      letter-spacing: 1px;
+    }
+    .song-title-row {
+      display: flex;
+      justify-content: space-between;
+      gap: 1rem;
+      align-items: flex-start;
+      margin-bottom: 0.35rem;
+    }
+    .song-title {
+      font-size: 1.05rem;
+      font-weight: 700;
+    }
+    .song-meta {
+      color: var(--muted);
+      font-size: 0.82rem;
+      margin-bottom: 0.7rem;
+    }
+    .song-story {
+      color: rgba(237, 232, 223, 0.82);
+      font-size: 0.94rem;
+      margin-bottom: 1rem;
+    }
+    .signal-pill {
+      color: var(--gold);
+      background: rgba(201,168,76,0.12);
+      border: 1px solid rgba(201,168,76,0.28);
+      border-radius: 999px;
+      font-size: 0.74rem;
+      font-weight: 700;
+      padding: 0.25rem 0.55rem;
+      white-space: nowrap;
+    }
+    .song-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.55rem;
+      align-items: center;
+    }
+    .song-btn {
+      border: 1px solid var(--dark3);
+      border-radius: 999px;
+      background: var(--dark);
+      color: var(--off-white);
+      cursor: pointer;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.82rem;
+      font-weight: 700;
+      padding: 0.55rem 0.85rem;
+      text-decoration: none;
+      transition: all 0.2s;
+    }
+    .song-btn:hover,
+    .song-btn.active {
+      border-color: var(--gold);
+      color: var(--gold);
+    }
+    .song-btn.primary {
+      background: var(--off-white);
+      border-color: var(--off-white);
+      color: var(--dark);
+    }
+    .song-btn.primary:hover {
+      background: var(--gold);
+      border-color: var(--gold);
+    }
+
     /* Right Column - Tiers & Similar */
     .support-tiers {
       display: flex;
@@ -360,11 +488,19 @@
     .checkout-fineprint { text-align: center; font-size: 0.8rem; color: var(--muted); margin-top: 1.5rem; }
 
     @media (max-width: 768px) {
+      .top-nav { padding: 0 1rem; }
+      .logo { font-size: 1.35rem; }
+      .nav-links { gap: 0.65rem; }
+      .nav-links a { font-size: 0.8rem; white-space: nowrap; }
+      .nav-avatar { width: 32px; height: 32px; }
       .main-grid { grid-template-columns: 1fr; }
       .support-tiers { position: static; }
       .banner { height: 200px; }
       
       .artist-name { font-size: 2.8rem; }
+      .song-card { grid-template-columns: 1fr; }
+      .song-art { width: 100%; height: 96px; }
+      .song-title-row { flex-direction: column; gap: 0.5rem; }
     }
   </style>
 </head>
@@ -419,57 +555,127 @@
 
         
 
-        
-  <h2 class="section-title">Artist Updates</h2>
-  <div class="supporter-feed" style="margin-bottom: 3rem;">
-    
-    <div class="supporter-item" style="border-color: var(--gold); background: rgba(201, 168, 76, 0.05);">
-      <div class="supporter-avatar" style="background: var(--gold); color: var(--dark); font-weight: 700;">RO</div>
-      <div class="supporter-content">
-        <div style="display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 0.2rem;">
-          <h4 style="color: var(--gold);">The Rare Occasions <span style="font-size: 0.8rem; opacity: 0.7; font-weight: 400; margin-left: 8px;">(Artist)</span></h4>
-          <span style="font-size: 0.8rem; color: var(--muted);">2 hrs ago</span>
+        <div class="artist-tabs" role="tablist" aria-label="Artist page sections">
+          <button class="artist-tab active" type="button" onclick="switchArtistTab('music')" data-tab-button="music">Music</button>
+          <button class="artist-tab" type="button" onclick="switchArtistTab('community')" data-tab-button="community">Community</button>
         </div>
-        <p>"Just wrapped the final mix on the B-side for Midnight Static. If we hit the $250 campaign goal this week, I'll drop the unreleased demo exclusively to everyone holding an Early Believer badge before it hits Spotify."</p>
-      </div>
-    </div>
 
-    <div class="supporter-item">
-      <div class="supporter-avatar">RO</div>
-      <div class="supporter-content">
-        <div style="display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 0.2rem;">
-          <h4>The Rare Occasions <span style="font-size: 0.8rem; opacity: 0.7; font-weight: 400; margin-left: 8px;">(Artist)</span></h4>
-          <span style="font-size: 0.8rem; color: var(--muted);">3 days ago</span>
-        </div>
-        <p>"Welcome to GroundFloor! We're running our very first ad campaign to push the new single out of the underground. Every $5 helps us trigger the Meta algorithm. Let's build this together."</p>
-      </div>
-    </div>
+        <div class="tab-panel active" id="musicPanel">
+          <h2 class="section-title">Featured Songs</h2>
+          <div class="song-list">
+            <div class="song-card">
+              <div class="song-art">MS</div>
+              <div>
+                <div class="song-title-row">
+                  <div>
+                    <div class="song-title">Midnight Static</div>
+                    <div class="song-meta">Breakout single - 42 supporters - $185 pushed</div>
+                  </div>
+                  <span class="signal-pill">Rising fast</span>
+                </div>
+                <p class="song-story">Written after a run of late-night garage shows in LA, this is the track the band thinks can travel fastest if the right indie fans hear it first.</p>
+                <div class="song-actions">
+                  <button class="song-btn like-btn" type="button" onclick="toggleSongLike(this)"><span data-like-count>128</span> Likes</button>
+                  <button class="song-btn primary" type="button" onclick="openCheckout('The Rare Occasions', 5, 'Song Support: Midnight Static')">Support this song</button>
+                  <a class="song-btn" href="#" onclick="return false;">Spotify</a>
+                  <a class="song-btn" href="#" onclick="return false;">SoundCloud</a>
+                </div>
+              </div>
+            </div>
 
-  </div>
-<h2 class="section-title">Supporters Wall</h2>
-        <div class="supporter-feed">
-          <div class="supporter-item">
-            <div class="supporter-avatar">⚡️</div>
-            <div class="supporter-content">
-              <h4>Alex F.</h4>
-              <span class="tier-badge">A&amp;R Scout ($25)</span>
-              <p>"Been following since the garage days. Midnight Static is the one. Let's go."</p>
+            <div class="song-card">
+              <div class="song-art">BL</div>
+              <div>
+                <div class="song-title-row">
+                  <div>
+                    <div class="song-title">Basement Light</div>
+                    <div class="song-meta">Demo favorite - 18 supporters - $70 pushed</div>
+                  </div>
+                  <span class="signal-pill">Fan pick</span>
+                </div>
+                <p class="song-story">Started as a voice memo after rehearsal and became the song fans keep asking for after shows. The band wants to test whether the rougher demo connects online.</p>
+                <div class="song-actions">
+                  <button class="song-btn like-btn" type="button" onclick="toggleSongLike(this)"><span data-like-count>74</span> Likes</button>
+                  <button class="song-btn primary" type="button" onclick="openCheckout('The Rare Occasions', 5, 'Song Support: Basement Light')">Support this song</button>
+                  <a class="song-btn" href="#" onclick="return false;">YouTube</a>
+                  <a class="song-btn" href="#" onclick="return false;">Bandcamp</a>
+                </div>
+              </div>
+            </div>
+
+            <div class="song-card">
+              <div class="song-art">SF</div>
+              <div>
+                <div class="song-title-row">
+                  <div>
+                    <div class="song-title">Signal Flares</div>
+                    <div class="song-meta">New unreleased preview - 9 supporters - $35 pushed</div>
+                  </div>
+                  <span class="signal-pill">Early signal</span>
+                </div>
+                <p class="song-story">A newer song about trying to find your people before the scene notices. The artist can use this space to tell fans why the track matters.</p>
+                <div class="song-actions">
+                  <button class="song-btn like-btn" type="button" onclick="toggleSongLike(this)"><span data-like-count>41</span> Likes</button>
+                  <button class="song-btn primary" type="button" onclick="openCheckout('The Rare Occasions', 5, 'Song Support: Signal Flares')">Support this song</button>
+                  <a class="song-btn" href="#" onclick="return false;">Preview</a>
+                </div>
+              </div>
             </div>
           </div>
-          <div class="supporter-item">
-            <div class="supporter-avatar">🎧</div>
-            <div class="supporter-content">
-              <h4>Sarah M.</h4>
-              <span class="tier-badge">Early Believer ($5)</span>
-              <p>"Heard this on the feed and immediately got hooked. Getting my badge before you blow up."</p>
+        </div>
+
+        <div class="tab-panel" id="communityPanel">
+          <h2 class="section-title">Artist Updates</h2>
+          <div class="supporter-feed" style="margin-bottom: 3rem;">
+            
+            <div class="supporter-item" style="border-color: var(--gold); background: rgba(201, 168, 76, 0.05);">
+              <div class="supporter-avatar" style="background: var(--gold); color: var(--dark); font-weight: 700;">RO</div>
+              <div class="supporter-content">
+                <div style="display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 0.2rem;">
+                  <h4 style="color: var(--gold);">The Rare Occasions <span style="font-size: 0.8rem; opacity: 0.7; font-weight: 400; margin-left: 8px;">(Artist)</span></h4>
+                  <span style="font-size: 0.8rem; color: var(--muted);">2 hrs ago</span>
+                </div>
+                <p>"Just wrapped the final mix on the B-side for Midnight Static. If we hit the $250 campaign goal this week, I'll drop the unreleased demo exclusively to everyone holding an Early Believer badge before it hits Spotify."</p>
+              </div>
             </div>
+
+            <div class="supporter-item">
+              <div class="supporter-avatar">RO</div>
+              <div class="supporter-content">
+                <div style="display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 0.2rem;">
+                  <h4>The Rare Occasions <span style="font-size: 0.8rem; opacity: 0.7; font-weight: 400; margin-left: 8px;">(Artist)</span></h4>
+                  <span style="font-size: 0.8rem; color: var(--muted);">3 days ago</span>
+                </div>
+                <p>"Welcome to GroundFloor! We're running our very first ad campaign to push the new single out of the underground. Every $5 helps us trigger the Meta algorithm. Let's build this together."</p>
+              </div>
+            </div>
+
           </div>
-          <div class="supporter-item">
-            <div class="supporter-avatar">🔥</div>
-            <div class="supporter-content">
-              <h4>Marcus T.</h4>
-              <span class="tier-badge">Executive Producer ($100)</span>
-              <p>"This needs to be on every indie playlist right now."</p>
+          <h2 class="section-title">Supporters Wall</h2>
+          <div class="supporter-feed">
+            <div class="supporter-item">
+              <div class="supporter-avatar">⚡️</div>
+              <div class="supporter-content">
+                <h4>Alex F.</h4>
+                <span class="tier-badge">A&amp;R Scout ($25)</span>
+                <p>"Been following since the garage days. Midnight Static is the one. Let's go."</p>
+              </div>
+            </div>
+            <div class="supporter-item">
+              <div class="supporter-avatar">🎧</div>
+              <div class="supporter-content">
+                <h4>Sarah M.</h4>
+                <span class="tier-badge">Early Believer ($5)</span>
+                <p>"Heard this on the feed and immediately got hooked. Getting my badge before you blow up."</p>
+              </div>
+            </div>
+            <div class="supporter-item">
+              <div class="supporter-avatar">🔥</div>
+              <div class="supporter-content">
+                <h4>Marcus T.</h4>
+                <span class="tier-badge">Executive Producer ($100)</span>
+                <p>"This needs to be on every indie playlist right now."</p>
+              </div>
             </div>
           </div>
         </div>
@@ -545,6 +751,21 @@
   </div>
 
   <script>
+    function switchArtistTab(tabName) {
+      document.querySelectorAll('.artist-tab').forEach(button => {
+        button.classList.toggle('active', button.dataset.tabButton === tabName);
+      });
+      document.getElementById('musicPanel').classList.toggle('active', tabName === 'music');
+      document.getElementById('communityPanel').classList.toggle('active', tabName === 'community');
+    }
+
+    function toggleSongLike(button) {
+      const countEl = button.querySelector('[data-like-count]');
+      const current = Number(countEl.innerText);
+      const active = button.classList.toggle('active');
+      countEl.innerText = active ? current + 1 : current - 1;
+    }
+
     function openCheckout(artistName, amount, tierName) {
       document.getElementById('checkoutArtistName').innerText = artistName;
       document.getElementById('checkoutTierName').innerText = tierName;
