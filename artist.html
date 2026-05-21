@@ -96,7 +96,7 @@
     /* Layout */
     .main-grid {
       display: grid;
-      grid-template-columns: 240px 1fr 320px;
+      grid-template-columns: 240px minmax(0, 1fr);
       gap: 2rem;
       margin-top: 30px; /* space for avatar */
       padding-bottom: 5rem;
@@ -125,8 +125,40 @@
     .bio {
       font-size: 1.05rem;
       color: rgba(237, 232, 223, 0.85);
-      margin-bottom: 2.5rem;
+      margin-bottom: 1.5rem;
       line-height: 1.6;
+    }
+
+    .artist-action-panel {
+      background: var(--dark2);
+      border: 1px solid var(--dark3);
+      border-radius: 16px;
+      padding: 1.25rem;
+      margin-bottom: 2rem;
+    }
+    .artist-action-top {
+      display: flex;
+      justify-content: space-between;
+      gap: 1rem;
+      align-items: flex-start;
+      margin-bottom: 1rem;
+    }
+    .support-artist-btn {
+      background: var(--gold);
+      color: var(--dark);
+      border: none;
+      border-radius: 999px;
+      cursor: pointer;
+      flex-shrink: 0;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.92rem;
+      font-weight: 700;
+      padding: 0.85rem 1.15rem;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+    .support-artist-btn:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 8px 18px rgba(0,0,0,0.35);
     }
 
     .section-title {
@@ -495,19 +527,36 @@
     /* Desktop Checkout Modal (Reused) */
     .checkout-overlay {
       position: fixed; top: 0; left: 0; width: 100vw; height: 100dvh;
-      background: rgba(0,0,0,0.7); backdrop-filter: blur(8px);
+      background: rgba(0,0,0,0.86); backdrop-filter: blur(10px);
       z-index: 99999; display: flex; align-items: center; justify-content: center;
+      padding: 1rem;
+      overflow-y: auto;
       opacity: 0; pointer-events: none; transition: opacity 0.3s ease;
     }
     .checkout-overlay.active { opacity: 1; pointer-events: all; }
     .desktop-checkout-modal {
-      width: 100%; max-width: 480px; background: var(--dark2); border: 1px solid var(--gold);
+      width: 100%; max-width: 480px; background: #111111; border: 1px solid var(--gold);
       border-radius: 16px; padding: 2.5rem;
       transform: scale(0.95); transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
       position: relative;
       box-shadow: 0 20px 60px rgba(0,0,0,0.9);
     }
     .checkout-overlay.active .desktop-checkout-modal { transform: scale(1); }
+    .support-options-modal {
+      max-width: 760px;
+      max-height: calc(100dvh - 2rem);
+      overflow-y: auto;
+    }
+    .support-modal-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 1rem;
+      margin-bottom: 1rem;
+    }
+    .support-modal-copy {
+      color: rgba(237,232,223,0.78);
+      margin-bottom: 1.35rem;
+    }
     
     .close-modal { 
       position: absolute; top: 20px; right: 20px; background: none; 
@@ -542,6 +591,16 @@
       .song-art { width: 100%; height: 96px; }
       .song-title-row { flex-direction: column; gap: 0.5rem; }
       .embed-placeholder { align-items: flex-start; flex-direction: column; }
+      .artist-action-top { flex-direction: column; }
+      .support-artist-btn { width: 100%; }
+      .support-modal-grid { grid-template-columns: 1fr; }
+      .checkout-overlay {
+        align-items: flex-start;
+        padding-top: 86px;
+      }
+      .support-options-modal {
+        max-height: calc(100dvh - 102px);
+      }
     }
   </style>
 </head>
@@ -594,7 +653,21 @@
           "Midnight Static" is their breakout single, currently gaining traction in underground LA clubs. We're raising funds to push their first targeted ad campaign across TikTok and Instagram Reels.
         </p>
 
-        
+        <div class="artist-action-panel">
+          <div class="artist-action-top">
+            <div>
+              <h3>Debut Ad Campaign</h3>
+              <p class="campaign-meta">Targeting fans of Arctic Monkeys &amp; The Strokes</p>
+            </div>
+            <button class="support-artist-btn" type="button" onclick="openSupportOptions()">Support Artist</button>
+          </div>
+          <div class="campaign-header">
+            <div class="campaign-meta">Campaign progress</div>
+            <div class="campaign-amount">$195 / $250</div>
+          </div>
+          <div class="progress-bar"><div class="progress-fill"></div></div>
+          <p class="campaign-meta" style="color: var(--off-white);">Only <strong>$55</strong> needed to trigger the algorithm optimization phase.</p>
+        </div>
 
         <div class="artist-tabs" role="tablist" aria-label="Artist page sections">
           <button class="artist-tab active" type="button" onclick="switchArtistTab('music')" data-tab-button="music">Music</button>
@@ -739,62 +812,47 @@
           </div>
         </div>
       </div>
+  </div>
 
-      <!-- Right Column (Tiers) -->
-      <div class="right-col">
-        <div class="campaign-box" style="margin-bottom: 2rem;">
-          <div class="campaign-header">
-            <div>
-              <h3>Debut Ad Campaign</h3>
-              <p class="campaign-meta">Targeting fans of Arctic Monkeys &amp; The Strokes</p>
-            </div>
-            <div class="campaign-amount">$195 / $250</div>
-          </div>
-          <div class="progress-bar"><div class="progress-fill"></div></div>
-          <p class="campaign-meta" style="color: var(--off-white);">Only <strong>$55</strong> needed to trigger the algorithm optimization phase.</p>
-        </div><h2 class="section-title">Support Tiers</h2>
-        
-        <div class="support-tiers">
-          <!-- Tier 1 -->
-          <div class="tier-card" onclick="openCheckout('The Rare Occasions', 5, 'Early Believer')">
-            <div class="tier-price">$5</div>
-            <div class="tier-title">Early Believer</div>
-            <p class="tier-desc">Get the verifiable "Early Believer" badge on your profile. Show everyone you were here before the ad buy triggered.</p>
-            <button class="tier-btn">Select</button>
-          </div>
-          
-          <!-- Tier 2 -->
-          <div class="tier-card" onclick="openCheckout('The Rare Occasions', 25, 'A&amp;R Scout')">
-            <div class="tier-price">$25</div>
-            <div class="tier-title">A&amp;R Scout</div>
-            <p class="tier-desc">Early Believer badge + Your name pinned to the artist's Supporter Wall + Exclusive studio updates.</p>
-            <button class="tier-btn">Select</button>
-          </div>
-
-          <!-- Tier 3 -->
-          <div class="tier-card" onclick="openCheckout('The Rare Occasions', 100, 'Executive Producer')">
-            <div class="tier-price">$100</div>
-            <div class="tier-title">Executive Producer</div>
-            <p class="tier-desc">All previous perks + Gold verified badge + Video shoutout from the band if the campaign succeeds.</p>
-            <button class="tier-btn">Select</button>
-          </div>
-
-          <div class="custom-support-card">
-            <div class="custom-support-title">Support with another amount</div>
-            <p class="custom-support-copy">Want to push this campaign further? Add any amount and still earn supporter credit.</p>
-            <div class="custom-amount-row">
-              <div class="amount-input-wrap">
-                <span class="amount-prefix">$</span>
-                <input class="custom-amount-input" id="customAmount" type="number" inputmode="decimal" min="1" step="1" placeholder="Enter amount">
-              </div>
-              <button class="tier-btn" type="button" onclick="openCustomCheckout()">Support Custom Amount</button>
-            </div>
-            <p class="custom-helper">Custom support helps the artist reach the promotion goal faster.</p>
-          </div>
+  <!-- Support Options Modal -->
+  <div class="checkout-overlay" id="supportOptionsOverlay" onclick="if(event.target===this) closeSupportOptions()">
+    <div class="desktop-checkout-modal support-options-modal">
+      <button class="close-modal" onclick="closeSupportOptions()">✕</button>
+      <h3 class="checkout-title">Support The Rare Occasions</h3>
+      <p class="support-modal-copy">Choose a support level or enter your own amount. Support helps push the campaign while keeping the artist page focused on the music.</p>
+      <div class="support-modal-grid">
+        <div class="tier-card" onclick="openCheckout('The Rare Occasions', 5, 'Early Believer')">
+          <div class="tier-price">$5</div>
+          <div class="tier-title">Early Believer</div>
+          <p class="tier-desc">Get the verifiable badge and show you were here before the campaign broke wider.</p>
+          <button class="tier-btn">Select</button>
         </div>
-
-        
+        <div class="tier-card" onclick="openCheckout('The Rare Occasions', 25, 'A&amp;R Scout')">
+          <div class="tier-price">$25</div>
+          <div class="tier-title">A&amp;R Scout</div>
+          <p class="tier-desc">Badge + supporter wall credit + studio and campaign updates from the artist.</p>
+          <button class="tier-btn">Select</button>
+        </div>
+        <div class="tier-card" onclick="openCheckout('The Rare Occasions', 100, 'Executive Producer')">
+          <div class="tier-price">$100</div>
+          <div class="tier-title">Executive Producer</div>
+          <p class="tier-desc">All previous perks + gold supporter credit if the campaign succeeds.</p>
+          <button class="tier-btn">Select</button>
+        </div>
       </div>
+      <div class="custom-support-card">
+        <div class="custom-support-title">Support with another amount</div>
+        <p class="custom-support-copy">Want to push this campaign further? Add any amount and still earn supporter credit.</p>
+        <div class="custom-amount-row">
+          <div class="amount-input-wrap">
+            <span class="amount-prefix">$</span>
+            <input class="custom-amount-input" id="modalCustomAmount" type="number" inputmode="decimal" min="1" step="1" placeholder="Enter amount">
+          </div>
+          <button class="tier-btn" type="button" onclick="openCustomCheckout()">Support Custom Amount</button>
+        </div>
+        <p class="custom-helper">Custom support helps the artist reach the promotion goal faster.</p>
+      </div>
+    </div>
   </div>
 
   <!-- Desktop Checkout Modal -->
@@ -825,7 +883,16 @@
       countEl.innerText = active ? current + 1 : current - 1;
     }
 
+    function openSupportOptions() {
+      document.getElementById('supportOptionsOverlay').classList.add('active');
+    }
+
+    function closeSupportOptions() {
+      document.getElementById('supportOptionsOverlay').classList.remove('active');
+    }
+
     function openCheckout(artistName, amount, tierName) {
+      closeSupportOptions();
       document.getElementById('checkoutArtistName').innerText = artistName;
       document.getElementById('checkoutTierName').innerText = tierName;
       document.getElementById('payBtn').innerText = 'Checkout with Stripe - $' + amount;
@@ -833,7 +900,7 @@
     }
 
     function openCustomCheckout() {
-      const input = document.getElementById('customAmount');
+      const input = document.getElementById('modalCustomAmount');
       const amount = Math.floor(Number(input.value));
       if (!amount || amount < 1) {
         input.focus();
