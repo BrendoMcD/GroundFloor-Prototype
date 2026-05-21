@@ -284,6 +284,46 @@
       font-size: 0.94rem;
       margin-bottom: 1rem;
     }
+    .song-embed {
+      overflow: hidden;
+      border: 1px solid var(--dark3);
+      border-radius: 12px;
+      background: var(--dark);
+      margin: 0 0 1rem;
+    }
+    .embed-label {
+      display: flex;
+      justify-content: space-between;
+      gap: 1rem;
+      padding: 0.65rem 0.85rem;
+      border-bottom: 1px solid var(--dark3);
+      color: var(--muted);
+      font-size: 0.75rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+    .song-embed iframe {
+      display: block;
+      width: 100%;
+      height: 152px;
+      border: 0;
+    }
+    .embed-placeholder {
+      min-height: 112px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+      padding: 1rem;
+      color: rgba(237, 232, 223, 0.75);
+      font-size: 0.86rem;
+    }
+    .embed-source {
+      color: var(--gold);
+      font-weight: 700;
+      white-space: nowrap;
+    }
     .signal-pill {
       color: var(--gold);
       background: rgba(201,168,76,0.12);
@@ -501,6 +541,7 @@
       .song-card { grid-template-columns: 1fr; }
       .song-art { width: 100%; height: 96px; }
       .song-title-row { flex-direction: column; gap: 0.5rem; }
+      .embed-placeholder { align-items: flex-start; flex-direction: column; }
     }
   </style>
 </head>
@@ -568,16 +609,20 @@
               <div>
                 <div class="song-title-row">
                   <div>
-                    <div class="song-title">Midnight Static</div>
+                    <div class="song-title">Notion</div>
                     <div class="song-meta">Breakout single - 42 supporters - $185 pushed</div>
                   </div>
                   <span class="signal-pill">Rising fast</span>
                 </div>
-                <p class="song-story">Written after a run of late-night garage shows in LA, this is the track the band thinks can travel fastest if the right indie fans hear it first.</p>
+                <p class="song-story">Written after a run of late-night garage shows, this is the track fans keep using to pull new listeners into the band. GroundFloor lets the song live on the page before asking anyone to support it.</p>
+                <div class="song-embed">
+                  <div class="embed-label"><span>Stream on page</span><span>Spotify embed</span></div>
+                  <iframe title="Spotify player for Notion by The Rare Occasions" src="https://open.spotify.com/embed/track/0sTlGEld0h8kIPZaKDYUf4?utm_source=generator" loading="lazy" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"></iframe>
+                </div>
                 <div class="song-actions">
                   <button class="song-btn like-btn" type="button" onclick="toggleSongLike(this)"><span data-like-count>128</span> Likes</button>
-                  <button class="song-btn primary" type="button" onclick="openCheckout('The Rare Occasions', 5, 'Song Support: Midnight Static')">Support this song</button>
-                  <a class="song-btn" href="#" onclick="return false;">Spotify</a>
+                  <button class="song-btn primary" type="button" onclick="openCheckout('The Rare Occasions', 5, 'Song Support: Notion')">Support this song</button>
+                  <a class="song-btn" href="https://open.spotify.com/track/0sTlGEld0h8kIPZaKDYUf4" target="_blank" rel="noopener">Open Spotify</a>
                   <a class="song-btn" href="#" onclick="return false;">SoundCloud</a>
                 </div>
               </div>
@@ -594,6 +639,13 @@
                   <span class="signal-pill">Fan pick</span>
                 </div>
                 <p class="song-story">Started as a voice memo after rehearsal and became the song fans keep asking for after shows. The band wants to test whether the rougher demo connects online.</p>
+                <div class="song-embed">
+                  <div class="embed-label"><span>Stream on page</span><span>Embed slot</span></div>
+                  <div class="embed-placeholder">
+                    <span>Embedded player slot for the artist's Spotify, SoundCloud, YouTube, or Bandcamp link.</span>
+                    <span class="embed-source">Artist-added stream</span>
+                  </div>
+                </div>
                 <div class="song-actions">
                   <button class="song-btn like-btn" type="button" onclick="toggleSongLike(this)"><span data-like-count>74</span> Likes</button>
                   <button class="song-btn primary" type="button" onclick="openCheckout('The Rare Occasions', 5, 'Song Support: Basement Light')">Support this song</button>
@@ -614,6 +666,13 @@
                   <span class="signal-pill">Early signal</span>
                 </div>
                 <p class="song-story">A newer song about trying to find your people before the scene notices. The artist can use this space to tell fans why the track matters.</p>
+                <div class="song-embed">
+                  <div class="embed-label"><span>Stream on page</span><span>Preview slot</span></div>
+                  <div class="embed-placeholder">
+                    <span>Private preview, demo, or released track can stream here before fans choose to support it.</span>
+                    <span class="embed-source">Preview embed</span>
+                  </div>
+                </div>
                 <div class="song-actions">
                   <button class="song-btn like-btn" type="button" onclick="toggleSongLike(this)"><span data-like-count>41</span> Likes</button>
                   <button class="song-btn primary" type="button" onclick="openCheckout('The Rare Occasions', 5, 'Song Support: Signal Flares')">Support this song</button>
