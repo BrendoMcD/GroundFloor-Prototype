@@ -694,7 +694,7 @@
                 </div>
                 <div class="song-actions">
                   <button class="song-btn like-btn" type="button" onclick="toggleSongLike(this)"><span data-like-count>128</span> Likes</button>
-                  <button class="song-btn primary" type="button" onclick="openCheckout('The Rare Occasions', 5, 'Song Support: Notion')">Support this song</button>
+                  <button class="song-btn primary" type="button" onclick="openSongSupportOptions('Notion')">Support this song</button>
                   <a class="song-btn" href="https://open.spotify.com/track/0sTlGEld0h8kIPZaKDYUf4" target="_blank" rel="noopener">Open Spotify</a>
                   <a class="song-btn" href="#" onclick="return false;">SoundCloud</a>
                 </div>
@@ -721,7 +721,7 @@
                 </div>
                 <div class="song-actions">
                   <button class="song-btn like-btn" type="button" onclick="toggleSongLike(this)"><span data-like-count>74</span> Likes</button>
-                  <button class="song-btn primary" type="button" onclick="openCheckout('The Rare Occasions', 5, 'Song Support: Basement Light')">Support this song</button>
+                  <button class="song-btn primary" type="button" onclick="openSongSupportOptions('Basement Light')">Support this song</button>
                   <a class="song-btn" href="#" onclick="return false;">YouTube</a>
                   <a class="song-btn" href="#" onclick="return false;">Bandcamp</a>
                 </div>
@@ -748,7 +748,7 @@
                 </div>
                 <div class="song-actions">
                   <button class="song-btn like-btn" type="button" onclick="toggleSongLike(this)"><span data-like-count>41</span> Likes</button>
-                  <button class="song-btn primary" type="button" onclick="openCheckout('The Rare Occasions', 5, 'Song Support: Signal Flares')">Support this song</button>
+                  <button class="song-btn primary" type="button" onclick="openSongSupportOptions('Signal Flares')">Support this song</button>
                   <a class="song-btn" href="#" onclick="return false;">Preview</a>
                 </div>
               </div>
@@ -818,22 +818,22 @@
   <div class="checkout-overlay" id="supportOptionsOverlay" onclick="if(event.target===this) closeSupportOptions()">
     <div class="desktop-checkout-modal support-options-modal">
       <button class="close-modal" onclick="closeSupportOptions()">✕</button>
-      <h3 class="checkout-title">Support The Rare Occasions</h3>
-      <p class="support-modal-copy">Choose a support level or enter your own amount. Support helps push the campaign while keeping the artist page focused on the music.</p>
+      <h3 class="checkout-title" id="supportOptionsTitle">Support The Rare Occasions</h3>
+      <p class="support-modal-copy" id="supportOptionsCopy">Choose a support level or enter your own amount. Support helps push the campaign while keeping the artist page focused on the music.</p>
       <div class="support-modal-grid">
-        <div class="tier-card" onclick="openCheckout('The Rare Occasions', 5, 'Early Believer')">
+        <div class="tier-card" onclick="selectSupportAmount(5, 'Early Believer')">
           <div class="tier-price">$5</div>
           <div class="tier-title">Early Believer</div>
           <p class="tier-desc">Get the verifiable badge and show you were here before the campaign broke wider.</p>
           <button class="tier-btn">Select</button>
         </div>
-        <div class="tier-card" onclick="openCheckout('The Rare Occasions', 25, 'A&amp;R Scout')">
+        <div class="tier-card" onclick="selectSupportAmount(25, 'A&amp;R Scout')">
           <div class="tier-price">$25</div>
           <div class="tier-title">A&amp;R Scout</div>
           <p class="tier-desc">Badge + supporter wall credit + studio and campaign updates from the artist.</p>
           <button class="tier-btn">Select</button>
         </div>
-        <div class="tier-card" onclick="openCheckout('The Rare Occasions', 100, 'Executive Producer')">
+        <div class="tier-card" onclick="selectSupportAmount(100, 'Executive Producer')">
           <div class="tier-price">$100</div>
           <div class="tier-title">Executive Producer</div>
           <p class="tier-desc">All previous perks + gold supporter credit if the campaign succeeds.</p>
@@ -868,6 +868,11 @@
   </div>
 
   <script>
+    let supportContext = {
+      mode: 'artist',
+      label: 'The Rare Occasions'
+    };
+
     function switchArtistTab(tabName) {
       document.querySelectorAll('.artist-tab').forEach(button => {
         button.classList.toggle('active', button.dataset.tabButton === tabName);
@@ -884,11 +889,36 @@
     }
 
     function openSupportOptions() {
+      supportContext = {
+        mode: 'artist',
+        label: 'The Rare Occasions'
+      };
+      document.getElementById('supportOptionsTitle').innerText = 'Support The Rare Occasions';
+      document.getElementById('supportOptionsCopy').innerText = 'Choose a support level or enter your own amount. Support helps push the campaign while keeping the artist page focused on the music.';
+      document.getElementById('modalCustomAmount').value = '';
+      document.getElementById('supportOptionsOverlay').classList.add('active');
+    }
+
+    function openSongSupportOptions(songTitle) {
+      supportContext = {
+        mode: 'song',
+        label: songTitle
+      };
+      document.getElementById('supportOptionsTitle').innerText = 'Support ' + songTitle;
+      document.getElementById('supportOptionsCopy').innerText = 'Choose a support level or add your own amount to help this specific song reach more of the right listeners.';
+      document.getElementById('modalCustomAmount').value = '';
       document.getElementById('supportOptionsOverlay').classList.add('active');
     }
 
     function closeSupportOptions() {
       document.getElementById('supportOptionsOverlay').classList.remove('active');
+    }
+
+    function selectSupportAmount(amount, tierName) {
+      const label = supportContext.mode === 'song'
+        ? 'Song Support: ' + supportContext.label + ' - ' + tierName
+        : tierName;
+      openCheckout('The Rare Occasions', amount, label);
     }
 
     function openCheckout(artistName, amount, tierName) {
@@ -907,7 +937,10 @@
         input.style.borderColor = 'var(--gold)';
         return;
       }
-      openCheckout('The Rare Occasions', amount, 'Custom Support');
+      const label = supportContext.mode === 'song'
+        ? 'Song Support: ' + supportContext.label + ' - Custom'
+        : 'Custom Support';
+      openCheckout('The Rare Occasions', amount, label);
     }
     
     function closeCheckout() {
