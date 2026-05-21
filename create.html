@@ -1,0 +1,774 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Create Artist Page - GroundFloor</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --gold: #C9A84C;
+    --gold-dim: #7A5E23;
+    --off-white: #EDE8DF;
+    --muted: #8E8982;
+    --dark: #0A0906;
+    --dark2: #131109;
+    --dark3: #1F1B13;
+    --line: rgba(237,232,223,0.1);
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    min-height: 100vh;
+    background:
+      radial-gradient(circle at 15% 0%, rgba(201,168,76,0.16), transparent 34rem),
+      linear-gradient(145deg, rgba(28,26,20,0.94), rgba(10,9,6,1) 58%),
+      #0A0906;
+    color: var(--off-white);
+    font-family: 'DM Sans', sans-serif;
+    line-height: 1.5;
+    overflow-x: hidden;
+  }
+
+  a { color: inherit; }
+
+  .top-nav {
+    position: sticky;
+    top: 0;
+    z-index: 20;
+    height: 70px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 2rem;
+    background: rgba(10, 9, 6, 0.88);
+    backdrop-filter: blur(14px);
+    border-bottom: 1px solid var(--line);
+  }
+
+  .logo {
+    font-family: 'Bebas Neue', sans-serif;
+    color: var(--gold);
+    text-decoration: none;
+    letter-spacing: 0.12em;
+    font-size: 1.65rem;
+  }
+
+  .nav-links {
+    display: flex;
+    gap: 1.35rem;
+    align-items: center;
+  }
+
+  .nav-links a {
+    color: var(--off-white);
+    opacity: 0.78;
+    text-decoration: none;
+    font-size: 0.92rem;
+    font-weight: 700;
+  }
+
+  .nav-links a:hover,
+  .nav-links a.active {
+    opacity: 1;
+    color: var(--gold);
+  }
+
+  .page {
+    max-width: 1180px;
+    margin: 0 auto;
+    padding: 4rem 2rem 5rem;
+  }
+
+  .hero {
+    display: grid;
+    grid-template-columns: minmax(0, 1.05fr) minmax(300px, 0.95fr);
+    gap: 3rem;
+    align-items: end;
+    margin-bottom: 3rem;
+  }
+
+  .eyebrow {
+    font-size: 0.75rem;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--gold);
+    font-weight: 700;
+    margin-bottom: 1rem;
+  }
+
+  h1 {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(3.2rem, 8vw, 6.2rem);
+    line-height: 0.93;
+    letter-spacing: 0.04em;
+    margin-bottom: 1.2rem;
+    max-width: 100%;
+    overflow-wrap: break-word;
+  }
+
+  .hero-copy {
+    color: rgba(237,232,223,0.78);
+    max-width: 620px;
+    font-size: 1.05rem;
+  }
+
+  .engine-card {
+    min-width: 0;
+    background: rgba(19,17,9,0.68);
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    padding: 1.25rem;
+  }
+
+  .engine-title {
+    font-family: 'Bebas Neue', sans-serif;
+    color: var(--gold);
+    letter-spacing: 0.08em;
+    font-size: 1.45rem;
+    margin-bottom: 0.8rem;
+  }
+
+  .engine-steps {
+    display: grid;
+    gap: 0.75rem;
+  }
+
+  .engine-step {
+    display: grid;
+    grid-template-columns: 32px 1fr;
+    gap: 0.75rem;
+    align-items: start;
+    color: rgba(237,232,223,0.82);
+    font-size: 0.95rem;
+    min-width: 0;
+  }
+
+  .engine-step span:last-child { min-width: 0; }
+
+  .step-num {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    display: grid;
+    place-items: center;
+    background: rgba(201,168,76,0.14);
+    color: var(--gold);
+    font-weight: 700;
+  }
+
+  .workspace {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 380px;
+    gap: 2rem;
+    align-items: start;
+    min-width: 0;
+  }
+
+  .builder,
+  .preview {
+    background: rgba(19,17,9,0.78);
+    border: 1px solid var(--line);
+    border-radius: 8px;
+  }
+
+  .builder { padding: 1.5rem; }
+  .preview {
+    position: sticky;
+    top: 92px;
+    overflow: hidden;
+  }
+
+  .mode-toggle {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.75rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .mode-btn {
+    background: var(--dark2);
+    color: var(--off-white);
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    padding: 1rem;
+    text-align: left;
+    cursor: pointer;
+    font-family: 'DM Sans', sans-serif;
+    transition: border-color 0.2s, background 0.2s;
+  }
+
+  .mode-btn strong {
+    display: block;
+    color: var(--off-white);
+    font-size: 1rem;
+    margin-bottom: 0.25rem;
+  }
+
+  .mode-btn span {
+    color: var(--muted);
+    font-size: 0.82rem;
+  }
+
+  .mode-btn.active {
+    border-color: var(--gold);
+    background: rgba(201,168,76,0.12);
+  }
+
+  .mode-btn.active strong { color: var(--gold); }
+
+  .form-section {
+    padding: 1.4rem 0;
+    border-top: 1px solid var(--line);
+  }
+
+  .form-section:first-of-type { border-top: none; padding-top: 0; }
+
+  .section-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.7rem;
+    letter-spacing: 0.06em;
+    margin-bottom: 1rem;
+  }
+
+  .form-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+  }
+
+  .field { margin-bottom: 1rem; }
+
+  label {
+    display: block;
+    color: var(--muted);
+    font-size: 0.78rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    margin-bottom: 0.45rem;
+  }
+
+  input,
+  select,
+  textarea {
+    width: 100%;
+    background: rgba(10,9,6,0.78);
+    color: var(--off-white);
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    padding: 0.92rem 1rem;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.98rem;
+  }
+
+  textarea { min-height: 104px; resize: vertical; }
+
+  input:focus,
+  select:focus,
+  textarea:focus {
+    outline: none;
+    border-color: var(--gold);
+    box-shadow: 0 0 0 3px rgba(201,168,76,0.12);
+  }
+
+  .helper {
+    color: var(--muted);
+    font-size: 0.82rem;
+    margin-top: 0.4rem;
+  }
+
+  .choice-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.65rem;
+  }
+
+  .pill {
+    border: 1px solid var(--line);
+    background: rgba(10,9,6,0.62);
+    color: var(--off-white);
+    border-radius: 999px;
+    padding: 0.58rem 0.9rem;
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 700;
+    font-size: 0.86rem;
+    cursor: pointer;
+  }
+
+  .pill.active {
+    color: var(--dark);
+    background: var(--gold);
+    border-color: var(--gold);
+  }
+
+  .action-bar {
+    display: flex;
+    gap: 0.8rem;
+    flex-wrap: wrap;
+    padding-top: 0.5rem;
+  }
+
+  .btn-primary,
+  .btn-secondary {
+    border-radius: 8px;
+    padding: 0.95rem 1.25rem;
+    border: 1px solid transparent;
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 700;
+    font-size: 0.95rem;
+    cursor: pointer;
+  }
+
+  .btn-primary {
+    background: var(--gold);
+    color: var(--dark);
+  }
+
+  .btn-secondary {
+    background: transparent;
+    border-color: var(--line);
+    color: var(--off-white);
+  }
+
+  .btn-primary:hover,
+  .btn-secondary:hover { opacity: 0.88; }
+
+  .preview-hero {
+    height: 142px;
+    background:
+      linear-gradient(to bottom, rgba(10,9,6,0), rgba(10,9,6,0.9)),
+      url('https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?q=80&w=1200&auto=format&fit=crop') center/cover;
+  }
+
+  .preview-body { padding: 1.25rem; }
+
+  .status-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    background: rgba(201,168,76,0.12);
+    color: var(--gold);
+    border: 1px solid rgba(201,168,76,0.28);
+    border-radius: 999px;
+    padding: 0.35rem 0.65rem;
+    font-weight: 700;
+    font-size: 0.76rem;
+    margin-bottom: 0.8rem;
+  }
+
+  .preview-name {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 2.35rem;
+    letter-spacing: 0.05em;
+    line-height: 0.95;
+  }
+
+  .preview-meta {
+    color: var(--gold);
+    font-weight: 700;
+    margin: 0.4rem 0 1rem;
+  }
+
+  .preview-bio {
+    color: rgba(237,232,223,0.76);
+    font-size: 0.93rem;
+    margin-bottom: 1.2rem;
+  }
+
+  .mini-progress {
+    margin-bottom: 1rem;
+  }
+
+  .mini-progress-top {
+    display: flex;
+    justify-content: space-between;
+    color: var(--muted);
+    font-size: 0.82rem;
+    margin-bottom: 0.4rem;
+  }
+
+  .bar {
+    height: 7px;
+    background: var(--dark3);
+    border-radius: 99px;
+    overflow: hidden;
+  }
+
+  .bar span {
+    display: block;
+    width: 46%;
+    height: 100%;
+    background: var(--gold);
+  }
+
+  .preview-actions {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.7rem;
+    margin-bottom: 1.2rem;
+  }
+
+  .preview-actions button {
+    border-radius: 8px;
+    padding: 0.8rem;
+    border: 1px solid var(--line);
+    background: var(--dark2);
+    color: var(--off-white);
+    font-weight: 700;
+  }
+
+  .supporter-strip {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.75rem;
+    background: rgba(10,9,6,0.58);
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    padding: 0.85rem;
+  }
+
+  .supporter-label {
+    color: var(--muted);
+    font-size: 0.8rem;
+    font-weight: 700;
+  }
+
+  .avatars {
+    display: flex;
+    margin-left: auto;
+  }
+
+  .avatar {
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    display: grid;
+    place-items: center;
+    background: var(--dark3);
+    border: 1px solid var(--gold-dim);
+    color: var(--gold);
+    font-size: 0.72rem;
+    font-weight: 700;
+    margin-left: -6px;
+  }
+
+  .confirmation {
+    display: none;
+    margin-top: 1rem;
+    border: 1px solid rgba(201,168,76,0.35);
+    background: rgba(201,168,76,0.1);
+    border-radius: 8px;
+    padding: 1rem;
+    color: rgba(237,232,223,0.88);
+  }
+
+  .confirmation.active { display: block; }
+
+  @media (max-width: 920px) {
+    .hero,
+    .workspace {
+      grid-template-columns: 1fr;
+    }
+
+    .preview { position: static; }
+    .nav-links { gap: 0.9rem; }
+  }
+
+  @media (max-width: 640px) {
+    .top-nav {
+      padding: 0 1rem;
+      height: auto;
+      min-height: 68px;
+      align-items: flex-start;
+      flex-direction: column;
+      gap: 0.5rem;
+      padding-top: 0.9rem;
+      padding-bottom: 0.9rem;
+    }
+
+    .nav-links {
+      width: 100%;
+      overflow-x: auto;
+      padding-bottom: 0.1rem;
+    }
+
+    .nav-links a { white-space: nowrap; }
+
+    .page { padding: 2.5rem 1rem 4rem; }
+    .page {
+      width: 100vw;
+      max-width: 100vw;
+      overflow-x: hidden;
+    }
+    .hero,
+    .workspace,
+    .builder,
+    .preview,
+    .engine-card {
+      width: 100%;
+      max-width: 100%;
+    }
+    h1 {
+      font-size: 2.7rem;
+      max-width: 9.5ch;
+      line-height: 0.98;
+    }
+    .hero-copy,
+    .engine-step,
+    .mode-btn,
+    .preview-body {
+      overflow-wrap: anywhere;
+    }
+    .hero-copy {
+      width: 100%;
+      max-width: 31ch;
+      font-size: 1rem;
+    }
+    .engine-card { overflow: hidden; }
+    .engine-step {
+      grid-template-columns: 32px minmax(0, 28ch);
+    }
+    .mode-toggle,
+    .form-grid,
+    .preview-actions {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>
+</head>
+<body>
+  <nav class="top-nav">
+    <a href="index.html" class="logo">GROUNDFLOOR</a>
+    <div class="nav-links">
+      <a href="discovery.html">Discover</a>
+      <a href="feed.html">Feed</a>
+      <a href="create.html" class="active">Create Page</a>
+      <a href="profile.html">Profile</a>
+    </div>
+  </nav>
+
+  <main class="page">
+    <section class="hero">
+      <div>
+        <div class="eyebrow">Artist page engine</div>
+        <h1>Create the page where early fans gather.</h1>
+        <p class="hero-copy">Artists can build their own page in a few minutes. Fans can nominate an artist before they join, then invite them to claim it. Either way, GroundFloor starts with a page people can rally around.</p>
+      </div>
+      <aside class="engine-card">
+        <div class="engine-title">The Loop</div>
+        <div class="engine-steps">
+          <div class="engine-step"><span class="step-num">1</span><span>Create or nominate an artist page from public music links.</span></div>
+          <div class="engine-step"><span class="step-num">2</span><span>Fans follow, back, share, and show why the artist should be heard.</span></div>
+          <div class="engine-step"><span class="step-num">3</span><span>The artist claims the page and turns support into updates, campaigns, and proof.</span></div>
+        </div>
+      </aside>
+    </section>
+
+    <section class="workspace">
+      <form class="builder" id="artistBuilder">
+        <div class="mode-toggle" role="tablist" aria-label="Choose page creation mode">
+          <button type="button" class="mode-btn active" data-mode="artist">
+            <strong>I'm the artist</strong>
+            <span>Create and claim your page now.</span>
+          </button>
+          <button type="button" class="mode-btn" data-mode="fan">
+            <strong>I'm a fan</strong>
+            <span>Nominate an artist and invite them in.</span>
+          </button>
+        </div>
+
+        <div class="form-section">
+          <h2 class="section-title">Artist Basics</h2>
+          <div class="form-grid">
+            <div class="field">
+              <label for="artistName">Artist name</label>
+              <input id="artistName" type="text" value="The Rare Occasions" required>
+            </div>
+            <div class="field">
+              <label for="genre">Genre</label>
+              <select id="genre">
+                <option>Indie Pop</option>
+                <option>Alt R&B</option>
+                <option>Hip-Hop</option>
+                <option>Bedroom Pop</option>
+                <option>Post-Punk</option>
+                <option>Electronic</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-grid">
+            <div class="field">
+              <label for="homeBase">Home base</label>
+              <input id="homeBase" type="text" value="Los Angeles, CA">
+            </div>
+            <div class="field">
+              <label for="musicLink">Music link</label>
+              <input id="musicLink" type="url" value="https://open.spotify.com/artist/example">
+            </div>
+          </div>
+          <div class="field">
+            <label for="artistStory">Why people should hear them</label>
+            <textarea id="artistStory">A sharp indie band with a loyal pocket of early listeners and the kind of hooks that spread when the right people hear them.</textarea>
+          </div>
+        </div>
+
+        <div class="form-section">
+          <h2 class="section-title">Support Goal</h2>
+          <div class="form-grid">
+            <div class="field">
+              <label for="campaignGoal">First campaign goal</label>
+              <select id="campaignGoal">
+                <option value="250">$250 visibility push</option>
+                <option value="500">$500 release boost</option>
+                <option value="1000">$1,000 city test</option>
+              </select>
+            </div>
+            <div class="field">
+              <label for="supporterAsk">Supporter ask</label>
+              <input id="supporterAsk" type="text" value="Help us find the first 100 true fans">
+            </div>
+          </div>
+          <div class="field">
+            <label>What should fans do first?</label>
+            <div class="choice-row" id="visibilityActions">
+              <button type="button" class="pill active">Follow</button>
+              <button type="button" class="pill active">Back $5</button>
+              <button type="button" class="pill">Share</button>
+              <button type="button" class="pill">Invite 3 friends</button>
+              <button type="button" class="pill">Join street team</button>
+            </div>
+            <p class="helper">This keeps the page about visibility creation, not just donations.</p>
+          </div>
+        </div>
+
+        <div class="form-section" id="fanSection" hidden>
+          <h2 class="section-title">Fan Nomination</h2>
+          <div class="form-grid">
+            <div class="field">
+              <label for="fanName">Your supporter name</label>
+              <input id="fanName" type="text" value="Maya">
+            </div>
+            <div class="field">
+              <label for="artistContact">Artist contact or social</label>
+              <input id="artistContact" type="text" placeholder="@artistname or email">
+            </div>
+          </div>
+          <div class="field">
+            <label for="fanReason">Why are you nominating them?</label>
+            <textarea id="fanReason">They have the songs. They just need the right listeners to find them.</textarea>
+          </div>
+        </div>
+
+        <div class="action-bar">
+          <button type="button" class="btn-primary" id="submitPage">Create Preview Page</button>
+          <button type="button" class="btn-secondary" onclick="window.location.href='artist.html'">View existing artist page</button>
+        </div>
+
+        <div class="confirmation" id="confirmation">
+          Page draft created. In the real app, this would save the page, generate the share link, and send the artist a claim invite if it started as a fan nomination.
+        </div>
+      </form>
+
+      <aside class="preview" aria-label="Artist page preview">
+        <div class="preview-hero"></div>
+        <div class="preview-body">
+          <div class="status-chip" id="previewStatus">Artist-created page</div>
+          <h2 class="preview-name" id="previewName">The Rare Occasions</h2>
+          <div class="preview-meta"><span id="previewGenre">Indie Pop</span> / <span id="previewBase">Los Angeles, CA</span></div>
+          <p class="preview-bio" id="previewStory">A sharp indie band with a loyal pocket of early listeners and the kind of hooks that spread when the right people hear them.</p>
+          <div class="mini-progress">
+            <div class="mini-progress-top">
+              <span id="previewAsk">Help us find the first 100 true fans</span>
+              <strong id="previewGoal">$250</strong>
+            </div>
+            <div class="bar"><span></span></div>
+          </div>
+          <div class="preview-actions">
+            <button>Follow</button>
+            <button>Back $5</button>
+            <button>Share</button>
+            <button>Invite</button>
+          </div>
+          <div class="supporter-strip">
+            <div>
+              <div class="supporter-label">Early supporters</div>
+              <strong id="supporterLine">Maya and 42 others</strong>
+            </div>
+            <div class="avatars" aria-hidden="true">
+              <span class="avatar">M</span>
+              <span class="avatar">J</span>
+              <span class="avatar">RO</span>
+            </div>
+          </div>
+        </div>
+      </aside>
+    </section>
+  </main>
+
+  <script>
+    const modeButtons = document.querySelectorAll('.mode-btn');
+    const fanSection = document.getElementById('fanSection');
+    const previewStatus = document.getElementById('previewStatus');
+    const confirmation = document.getElementById('confirmation');
+
+    const fields = {
+      artistName: document.getElementById('artistName'),
+      genre: document.getElementById('genre'),
+      homeBase: document.getElementById('homeBase'),
+      artistStory: document.getElementById('artistStory'),
+      campaignGoal: document.getElementById('campaignGoal'),
+      supporterAsk: document.getElementById('supporterAsk'),
+      fanName: document.getElementById('fanName')
+    };
+
+    const preview = {
+      name: document.getElementById('previewName'),
+      genre: document.getElementById('previewGenre'),
+      base: document.getElementById('previewBase'),
+      story: document.getElementById('previewStory'),
+      goal: document.getElementById('previewGoal'),
+      ask: document.getElementById('previewAsk'),
+      supporterLine: document.getElementById('supporterLine')
+    };
+
+    function updatePreview() {
+      preview.name.textContent = fields.artistName.value || 'Untitled Artist';
+      preview.genre.textContent = fields.genre.value;
+      preview.base.textContent = fields.homeBase.value || 'New scene';
+      preview.story.textContent = fields.artistStory.value || 'Add the story that helps early fans understand why this artist matters.';
+      preview.goal.textContent = '$' + fields.campaignGoal.value;
+      preview.ask.textContent = fields.supporterAsk.value || 'Help this artist find their first true fans';
+      preview.supporterLine.textContent = (fields.fanName.value || 'A fan') + ' and 42 others';
+    }
+
+    Object.values(fields).forEach(field => field.addEventListener('input', updatePreview));
+    fields.genre.addEventListener('change', updatePreview);
+    fields.campaignGoal.addEventListener('change', updatePreview);
+
+    modeButtons.forEach(button => {
+      button.addEventListener('click', () => {
+        modeButtons.forEach(item => item.classList.remove('active'));
+        button.classList.add('active');
+        const isFan = button.dataset.mode === 'fan';
+        fanSection.hidden = !isFan;
+        previewStatus.textContent = isFan ? 'Fan-nominated draft page' : 'Artist-created page';
+        confirmation.classList.remove('active');
+      });
+    });
+
+    document.querySelectorAll('.pill').forEach(pill => {
+      pill.addEventListener('click', () => pill.classList.toggle('active'));
+    });
+
+    document.getElementById('submitPage').addEventListener('click', () => {
+      confirmation.classList.add('active');
+      confirmation.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    });
+  </script>
+</body>
+</html>

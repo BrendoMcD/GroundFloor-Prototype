@@ -1,0 +1,485 @@
+<!DOCTYPE html><html lang="en"><head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>The Rare Occasions - GroundFloor</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&amp;family=DM+Sans:opsz,wght@9..40,400;9..40,700&amp;display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --dark: #0a0a0a;
+      --dark2: #141414;
+      --dark3: #1f1f1f;
+      --gold: #c9a84c;
+      --off-white: #ede8df;
+      --muted: #888888;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    
+    body {
+      background-color: var(--dark);
+      color: var(--off-white);
+      font-family: 'DM Sans', sans-serif;
+      min-height: 100vh;
+      line-height: 1.5;
+    }
+
+    /* Fixed Navigation */
+    .top-nav {
+      position: fixed;
+      top: 0; left: 0; width: 100%;
+      height: 70px;
+      background: rgba(10, 10, 10, 0.85);
+      backdrop-filter: blur(10px);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0 2rem;
+      z-index: 1000;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    }
+    .logo {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 1.6rem;
+      color: var(--gold);
+      text-decoration: none;
+      letter-spacing: 1px;
+    }
+    .nav-links { display: flex; gap: 1.5rem; align-items: center; }
+    .nav-links a {
+      color: var(--off-white);
+      text-decoration: none;
+      font-size: 0.95rem;
+      font-weight: 700;
+      opacity: 0.8;
+      transition: opacity 0.2s;
+    }
+    .nav-links a:hover { opacity: 1; }
+    .nav-avatar {
+      width: 36px; height: 36px;
+      border-radius: 50%;
+      background: url('https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=100&auto=format&fit=crop') center/cover;
+      border: 1px solid var(--gold);
+      display: block;
+      cursor: pointer;
+    }
+
+    /* Artist Profile Header */
+    .artist-header {
+      margin-top: 70px;
+      position: relative;
+    }
+    .banner {
+      width: 100%;
+      height: 300px;
+      background: url('https://images.unsplash.com/photo-1598387181032-a3103a2db5b3?q=80&w=1920&auto=format&fit=crop') center/cover no-repeat;
+      position: relative;
+    }
+    .banner::after {
+      content: '';
+      position: absolute;
+      bottom: 0; left: 0; width: 100%; height: 50%;
+      background: linear-gradient(to top, var(--dark), transparent);
+    }
+    
+    .profile-container {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 0 2rem;
+      position: relative;
+    }
+
+    
+
+    
+    /* Layout */
+    .main-grid {
+      display: grid;
+      grid-template-columns: 240px 1fr 320px;
+      gap: 2rem;
+      margin-top: 30px; /* space for avatar */
+      padding-bottom: 5rem;
+    }
+
+    /* Column Styles */
+    .middle-col { position: relative; }
+    .artist-name {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 3.5rem;
+      color: var(--off-white);
+      letter-spacing: 1px;
+      margin-bottom: 0.5rem;
+      line-height: 1;
+    }
+    .genre-tag {
+      display: inline-block;
+      background: rgba(201, 168, 76, 0.15);
+      color: var(--gold);
+      padding: 0.3rem 0.8rem;
+      border-radius: 20px;
+      font-size: 0.85rem;
+      font-weight: 700;
+      margin-bottom: 1.5rem;
+    }
+    .bio {
+      font-size: 1.05rem;
+      color: rgba(237, 232, 223, 0.85);
+      margin-bottom: 2.5rem;
+      line-height: 1.6;
+    }
+
+    .section-title {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 1.8rem;
+      color: var(--gold);
+      letter-spacing: 1px;
+      margin-bottom: 1.5rem;
+      border-bottom: 1px solid var(--dark3);
+      padding-bottom: 0.5rem;
+    }
+
+    /* Ad Campaign Progress */
+    .campaign-box {
+      background: var(--dark2);
+      border: 1px solid var(--dark3);
+      border-radius: 16px;
+      padding: 2rem;
+      margin-bottom: 3rem;
+    }
+    .campaign-header {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 1rem;
+    }
+    .campaign-header h3 { font-size: 1.2rem; }
+    .campaign-amount {  font-family: 'Bebas Neue', sans-serif; font-size: 1.8rem; color: var(--gold);  white-space: nowrap; }
+    
+    .progress-bar {
+      width: 100%; height: 12px;
+      background: var(--dark3);
+      border-radius: 6px;
+      overflow: hidden;
+      margin-bottom: 1rem;
+    }
+    .progress-fill {
+      height: 100%;
+      background: var(--gold);
+      width: 78%; /* $195 of $250 */
+      border-radius: 6px;
+    }
+    .campaign-meta { font-size: 0.9rem; color: var(--muted); }
+
+    /* Supporter Feed */
+    .supporter-feed {
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+    }
+    .supporter-item {
+      display: flex;
+      gap: 1rem;
+      background: var(--dark2);
+      padding: 1.5rem;
+      border-radius: 12px;
+      border: 1px solid rgba(255,255,255,0.02);
+    }
+    .supporter-avatar { flex-shrink: 0;
+      width: 45px; height: 45px;
+      border-radius: 50%;
+      background: var(--dark3);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.2rem;
+    }
+    .supporter-content h4 { font-size: 1rem; margin-bottom: 0.2rem; }
+    .supporter-content .tier-badge {
+      font-size: 0.75rem; color: var(--gold);
+      background: rgba(201, 168, 76, 0.1);
+      padding: 0.2rem 0.5rem; border-radius: 4px;
+      margin-bottom: 0.5rem; display: inline-block;
+    }
+    .supporter-content p { font-size: 0.95rem; color: rgba(237, 232, 223, 0.8); }
+
+    /* Right Column - Tiers & Similar */
+    .support-tiers {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+      margin-bottom: 3rem;
+      position: sticky;
+      top: 100px;
+    }
+    .tier-card {
+      background: var(--dark2);
+      border: 1px solid var(--dark3);
+      border-radius: 12px;
+      padding: 1.5rem;
+      transition: all 0.2s;
+      cursor: pointer;
+    }
+    .tier-card:hover {
+      border-color: var(--gold);
+      transform: translateY(-2px);
+      box-shadow: 0 10px 20px rgba(0,0,0,0.4);
+    }
+    .tier-price {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 2rem;
+      color: var(--gold);
+      margin-bottom: 0.2rem;
+    }
+    .tier-title { font-weight: 700; font-size: 1.1rem; margin-bottom: 0.8rem; }
+    .tier-desc { font-size: 0.85rem; color: var(--muted); margin-bottom: 1.5rem; }
+    .tier-btn {
+      width: 100%;
+      padding: 0.8rem;
+      background: var(--off-white);
+      color: var(--dark);
+      border: none;
+      border-radius: 6px;
+      font-weight: 700;
+      font-family: 'DM Sans', sans-serif;
+      cursor: pointer;
+      transition: opacity 0.2s;
+    }
+    .tier-card:hover .tier-btn { background: var(--gold); }
+
+    .similar-artists { margin-top: 0; }
+    .similar-item {
+      display: flex; align-items: center; gap: 1rem;
+      margin-bottom: 1rem;
+      padding: 0.5rem;
+      border-radius: 8px;
+      transition: background 0.2s;
+      text-decoration: none;
+      color: var(--off-white);
+    }
+    .similar-item:hover { background: var(--dark2); }
+    .similar-pic { flex-shrink: 0;
+      width: 50px; height: 50px; border-radius: 50%;
+      background: var(--dark3);
+      background-size: cover;
+      background-position: center;
+    }
+
+    /* Desktop Checkout Modal (Reused) */
+    .checkout-overlay {
+      position: fixed; top: 0; left: 0; width: 100vw; height: 100dvh;
+      background: rgba(0,0,0,0.7); backdrop-filter: blur(8px);
+      z-index: 99999; display: flex; align-items: center; justify-content: center;
+      opacity: 0; pointer-events: none; transition: opacity 0.3s ease;
+    }
+    .checkout-overlay.active { opacity: 1; pointer-events: all; }
+    .desktop-checkout-modal {
+      width: 100%; max-width: 480px; background: var(--dark2); border: 1px solid var(--gold);
+      border-radius: 16px; padding: 2.5rem;
+      transform: scale(0.95); transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      position: relative;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.9);
+    }
+    .checkout-overlay.active .desktop-checkout-modal { transform: scale(1); }
+    
+    .close-modal { 
+      position: absolute; top: 20px; right: 20px; background: none; 
+      border: none; color: var(--muted); font-size: 1.5rem; cursor: pointer;
+      transition: color 0.2s;
+    }
+    .close-modal:hover { color: var(--off-white); }
+    
+    .checkout-title { font-family: 'Bebas Neue', sans-serif; font-size: 2.5rem; color: var(--gold); letter-spacing: 1px; margin-bottom: 0.5rem; }
+    .checkout-subtitle { color: var(--off-white); font-size: 1rem; margin-bottom: 2rem; opacity: 0.9; }
+    
+    .modal-pay-btn {
+      width: 100%; background: var(--off-white); color: #000; border: none;
+      padding: 1.2rem; border-radius: 8px; font-size: 1.1rem; font-weight: 700;
+      cursor: pointer; transition: opacity 0.2s; font-family: 'DM Sans', sans-serif;
+    }
+    .modal-pay-btn:hover { opacity: 0.9; }
+    .checkout-fineprint { text-align: center; font-size: 0.8rem; color: var(--muted); margin-top: 1.5rem; }
+
+    @media (max-width: 768px) {
+      .main-grid { grid-template-columns: 1fr; }
+      .support-tiers { position: static; }
+      .banner { height: 200px; }
+      
+      .artist-name { font-size: 2.8rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Top Nav -->
+  <nav class="top-nav">
+    <a href="index.html" class="logo">GROUNDFLOOR</a>
+    <div class="nav-links">
+      <a href="feed.html">Feed</a>
+      <a href="discovery.html">Discovery</a>
+      <a href="create.html">Create Page</a>
+      <a href="profile.html" class="nav-avatar"></a>
+    </div>
+  </nav>
+
+  <!-- Header -->
+  <div class="artist-header">
+    <div class="banner"></div>
+  </div>
+
+  <div class="profile-container">
+    
+    
+    <div class="main-grid">
+
+      <!-- Left Column -->
+      <div class="left-col"><div class="similar-artists" style="margin-top: 0px;">
+          <h2 class="section-title" style="font-size: 1.4rem;">Fans Also Supported</h2>
+          <a href="#" class="similar-item">
+            <div class="similar-pic" style="background-image: url('https://images.unsplash.com/photo-1516280440502-628d00249d36?w=200&amp;auto=format&amp;fit=crop');"></div>
+            <div>
+              <div style="font-weight: 700;">Jenevieve</div>
+              <div style="font-size: 0.8rem; color: var(--muted);">R&amp;B / Soul</div>
+            </div>
+          </a>
+          <a href="#" class="similar-item">
+            <div class="similar-pic" style="background-image: url('https://images.unsplash.com/photo-1522869635100-9f4c5e86aa37?w=200&amp;auto=format&amp;fit=crop');"></div>
+            <div>
+              <div style="font-weight: 700;">PawPaw Rod</div>
+              <div style="font-size: 0.8rem; color: var(--muted);">Alternative Rap</div>
+            </div>
+          </a>
+        </div></div><div class="middle-col">
+        <h1 class="artist-name">The Rare Occasions</h1>
+        <div class="genre-tag">Indie Rock</div>
+        
+        <p class="bio">
+          Los Angeles-based indie rock band pushing garage rock revival into a new era. Known for frenetic live shows and impossibly catchy riffs. 
+          "Midnight Static" is their breakout single, currently gaining traction in underground LA clubs. We're raising funds to push their first targeted ad campaign across TikTok and Instagram Reels.
+        </p>
+
+        
+
+        
+  <h2 class="section-title">Artist Updates</h2>
+  <div class="supporter-feed" style="margin-bottom: 3rem;">
+    
+    <div class="supporter-item" style="border-color: var(--gold); background: rgba(201, 168, 76, 0.05);">
+      <div class="supporter-avatar" style="background: var(--gold); color: var(--dark); font-weight: 700;">RO</div>
+      <div class="supporter-content">
+        <div style="display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 0.2rem;">
+          <h4 style="color: var(--gold);">The Rare Occasions <span style="font-size: 0.8rem; opacity: 0.7; font-weight: 400; margin-left: 8px;">(Artist)</span></h4>
+          <span style="font-size: 0.8rem; color: var(--muted);">2 hrs ago</span>
+        </div>
+        <p>"Just wrapped the final mix on the B-side for Midnight Static. If we hit the $250 campaign goal this week, I'll drop the unreleased demo exclusively to everyone holding an Early Believer badge before it hits Spotify."</p>
+      </div>
+    </div>
+
+    <div class="supporter-item">
+      <div class="supporter-avatar">RO</div>
+      <div class="supporter-content">
+        <div style="display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 0.2rem;">
+          <h4>The Rare Occasions <span style="font-size: 0.8rem; opacity: 0.7; font-weight: 400; margin-left: 8px;">(Artist)</span></h4>
+          <span style="font-size: 0.8rem; color: var(--muted);">3 days ago</span>
+        </div>
+        <p>"Welcome to GroundFloor! We're running our very first ad campaign to push the new single out of the underground. Every $5 helps us trigger the Meta algorithm. Let's build this together."</p>
+      </div>
+    </div>
+
+  </div>
+<h2 class="section-title">Supporters Wall</h2>
+        <div class="supporter-feed">
+          <div class="supporter-item">
+            <div class="supporter-avatar">⚡️</div>
+            <div class="supporter-content">
+              <h4>Alex F.</h4>
+              <span class="tier-badge">A&amp;R Scout ($25)</span>
+              <p>"Been following since the garage days. Midnight Static is the one. Let's go."</p>
+            </div>
+          </div>
+          <div class="supporter-item">
+            <div class="supporter-avatar">🎧</div>
+            <div class="supporter-content">
+              <h4>Sarah M.</h4>
+              <span class="tier-badge">Early Believer ($5)</span>
+              <p>"Heard this on the feed and immediately got hooked. Getting my badge before you blow up."</p>
+            </div>
+          </div>
+          <div class="supporter-item">
+            <div class="supporter-avatar">🔥</div>
+            <div class="supporter-content">
+              <h4>Marcus T.</h4>
+              <span class="tier-badge">Executive Producer ($100)</span>
+              <p>"This needs to be on every indie playlist right now."</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Right Column (Tiers) -->
+      <div class="right-col">
+        <div class="campaign-box" style="margin-bottom: 2rem;">
+          <div class="campaign-header">
+            <div>
+              <h3>Debut Ad Campaign</h3>
+              <p class="campaign-meta">Targeting fans of Arctic Monkeys &amp; The Strokes</p>
+            </div>
+            <div class="campaign-amount">$195 / $250</div>
+          </div>
+          <div class="progress-bar"><div class="progress-fill"></div></div>
+          <p class="campaign-meta" style="color: var(--off-white);">Only <strong>$55</strong> needed to trigger the algorithm optimization phase.</p>
+        </div><h2 class="section-title">Support Tiers</h2>
+        
+        <div class="support-tiers">
+          <!-- Tier 1 -->
+          <div class="tier-card" onclick="openCheckout('The Rare Occasions', 5, 'Early Believer')">
+            <div class="tier-price">$5</div>
+            <div class="tier-title">Early Believer</div>
+            <p class="tier-desc">Get the verifiable "Early Believer" badge on your profile. Show everyone you were here before the ad buy triggered.</p>
+            <button class="tier-btn">Select</button>
+          </div>
+          
+          <!-- Tier 2 -->
+          <div class="tier-card" onclick="openCheckout('The Rare Occasions', 25, 'A&amp;R Scout')">
+            <div class="tier-price">$25</div>
+            <div class="tier-title">A&amp;R Scout</div>
+            <p class="tier-desc">Early Believer badge + Your name pinned to the artist's Supporter Wall + Exclusive studio updates.</p>
+            <button class="tier-btn">Select</button>
+          </div>
+
+          <!-- Tier 3 -->
+          <div class="tier-card" onclick="openCheckout('The Rare Occasions', 100, 'Executive Producer')">
+            <div class="tier-price">$100</div>
+            <div class="tier-title">Executive Producer</div>
+            <p class="tier-desc">All previous perks + Gold verified badge + Video shoutout from the band if the campaign succeeds.</p>
+            <button class="tier-btn">Select</button>
+          </div>
+        </div>
+
+        
+      </div>
+  </div>
+
+  <!-- Desktop Checkout Modal -->
+  <div class="checkout-overlay" id="checkoutOverlay" onclick="if(event.target===this) closeCheckout()">
+    <div class="desktop-checkout-modal">
+      <button class="close-modal" onclick="closeCheckout()">✕</button>
+      <h3 class="checkout-title">Support <span id="checkoutArtistName">Artist</span></h3>
+      <p class="checkout-subtitle">Tier: <strong id="checkoutTierName" style="color: var(--gold);">Early Believer</strong></p>
+      
+      <button class="modal-pay-btn" id="payBtn">Checkout with Stripe - $5</button>
+      <p class="checkout-fineprint">Secured by Stripe. Instant access to updates and badges.</p>
+    </div>
+  </div>
+
+  <script>
+    function openCheckout(artistName, amount, tierName) {
+      document.getElementById('checkoutArtistName').innerText = artistName;
+      document.getElementById('checkoutTierName').innerText = tierName;
+      document.getElementById('payBtn').innerText = 'Checkout with Stripe - $' + amount;
+      document.getElementById('checkoutOverlay').classList.add('active');
+    }
+    
+    function closeCheckout() {
+      document.getElementById('checkoutOverlay').classList.remove('active');
+    }
+  </script>
+
+</div></body></html>
