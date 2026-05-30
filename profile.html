@@ -312,6 +312,7 @@
       <!-- Sidebar -->
       <div class="sidebar-nav">
         <a href="#account" class="sidebar-link active">Account Settings</a>
+        <a href="#artist-dashboard" class="sidebar-link">Artist Dashboard</a>
         <a href="#preferences" class="sidebar-link">Music Preferences</a>
         <a href="#wallet" class="sidebar-link">Wallet & Badges</a>
         <a href="#security" class="sidebar-link">Security</a>
@@ -350,6 +351,13 @@
           </div>
 
           <button class="btn-primary">Save Changes</button>
+        </div>
+
+        <!-- Artist Dashboard -->
+        <div id="artist-dashboard" class="settings-section">
+          <h2 class="section-heading">Artist Dashboard</h2>
+          <p style="color: var(--muted); margin-bottom: 1.5rem; font-size: 0.95rem;">For artist accounts, this opens the private campaign cockpit: pledges, supporter reasons, listens, shares, claim status, and campaign proof.</p>
+          <button class="btn-primary" onclick="window.location.href='https://ground-floor-proof-engine.vercel.app/operator'">Open Artist Dashboard</button>
         </div>
 
         <!-- Music Preferences -->

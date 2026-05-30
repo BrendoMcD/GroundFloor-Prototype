@@ -160,6 +160,38 @@
       transform: translateY(-1px);
       box-shadow: 0 8px 18px rgba(0,0,0,0.35);
     }
+    .live-proof-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.75rem;
+      margin-top: 1rem;
+    }
+    .live-proof-btn {
+      align-items: center;
+      border: 1px solid rgba(201,168,76,0.42);
+      border-radius: 999px;
+      color: var(--gold);
+      display: inline-flex;
+      font-size: 0.82rem;
+      font-weight: 700;
+      justify-content: center;
+      padding: 0.72rem 1rem;
+      text-decoration: none;
+      transition: border-color 0.2s, color 0.2s, background 0.2s;
+    }
+    .live-proof-btn:hover {
+      background: rgba(201,168,76,0.08);
+      border-color: var(--gold);
+      color: var(--off-white);
+    }
+    .live-proof-note {
+      border-top: 1px solid rgba(255,255,255,0.08);
+      color: rgba(237,232,223,0.72);
+      font-size: 0.86rem;
+      line-height: 1.55;
+      margin-top: 1rem;
+      padding-top: 1rem;
+    }
 
     .section-title {
       font-family: 'Bebas Neue', sans-serif;
@@ -606,6 +638,7 @@
       }
       .songs-grid { grid-template-columns: 1fr; }
       .support-artist-btn { width: 100%; }
+      .live-proof-btn { width: 100%; }
       .support-modal-grid { grid-template-columns: 1fr; }
       .desktop-checkout-modal {
         max-width: calc(100vw - 2rem);
@@ -629,7 +662,7 @@
     <div class="nav-links">
       <a href="feed.html">Feed</a>
       <a href="discovery.html">Discovery</a>
-      <a href="create.html">Create Page</a>
+      <a href="https://ground-floor-proof-engine.vercel.app/create">Create Page</a>
       <a href="profile.html" class="nav-avatar"></a>
     </div>
   </nav>
@@ -667,6 +700,11 @@
           </div>
           <div class="progress-bar"><div class="progress-fill"></div></div>
           <p class="campaign-meta" style="color: var(--off-white);">Only <strong>$55</strong> needed to trigger the algorithm optimization phase.</p>
+          <p class="live-proof-note">This is the artist page shell. The live proof layer tracks pledges, support reasons, listen taps, shares, badges, and campaign growth.</p>
+          <div class="live-proof-row">
+            <a class="live-proof-btn" href="https://ground-floor-proof-engine.vercel.app/artist/the-rare-occasions">View live proof campaign</a>
+            <a class="live-proof-btn" href="https://ground-floor-proof-engine.vercel.app/operator">Artist backend</a>
+          </div>
         </div>
 
         <div class="artist-tabs" role="tablist" aria-label="Artist page sections">
