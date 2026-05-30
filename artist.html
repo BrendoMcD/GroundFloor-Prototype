@@ -559,23 +559,58 @@
     .checkout-fineprint { text-align: center; font-size: 0.8rem; color: var(--muted); margin-top: 1.5rem; }
 
     @media (max-width: 768px) {
-      .top-nav { padding: 0 1rem; }
+      .top-nav {
+        height: auto;
+        min-height: 68px;
+        align-items: flex-start;
+        flex-direction: column;
+        gap: 0.55rem;
+        padding: 0.85rem 1rem;
+      }
       .logo { font-size: 1.35rem; }
-      .nav-links { gap: 0.65rem; }
+      .nav-links {
+        width: 100%;
+        gap: 0.65rem;
+        overflow-x: auto;
+        padding-bottom: 0.15rem;
+      }
       .nav-links a { font-size: 0.8rem; white-space: nowrap; }
       .nav-avatar { width: 32px; height: 32px; }
+      .profile-container {
+        padding: 0 1rem 3rem;
+        width: 100%;
+      }
       .main-grid { grid-template-columns: 1fr; }
       .support-tiers { position: static; }
       .banner { height: 200px; }
       
-      .artist-name { font-size: 2.8rem; }
+      .artist-name {
+        font-size: clamp(2.4rem, 16vw, 4rem);
+        line-height: 0.92;
+        overflow-wrap: anywhere;
+      }
+      .artist-bio { font-size: 1rem; }
       .song-card { grid-template-columns: 1fr; }
       .song-art { width: 100%; height: 96px; }
       .song-title-row { flex-direction: column; gap: 0.5rem; }
       .embed-placeholder { align-items: flex-start; flex-direction: column; }
       .artist-action-top { flex-direction: column; }
+      .artist-tabs {
+        display: flex;
+        overflow-x: auto;
+        width: 100%;
+      }
+      .artist-tab {
+        flex: 0 0 auto;
+        white-space: nowrap;
+      }
+      .songs-grid { grid-template-columns: 1fr; }
       .support-artist-btn { width: 100%; }
       .support-modal-grid { grid-template-columns: 1fr; }
+      .desktop-checkout-modal {
+        max-width: calc(100vw - 2rem);
+        padding: 1.5rem;
+      }
       .checkout-overlay {
         align-items: flex-start;
         padding-top: 86px;

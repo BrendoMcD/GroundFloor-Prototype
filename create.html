@@ -514,9 +514,10 @@
       max-width: 100%;
     }
     h1 {
-      font-size: 2.7rem;
-      max-width: 9.5ch;
+      font-size: clamp(2.55rem, 14vw, 3.6rem);
+      max-width: 10.5ch;
       line-height: 0.98;
+      overflow-wrap: anywhere;
     }
     .hero-copy,
     .engine-step,
@@ -531,12 +532,30 @@
     }
     .engine-card { overflow: hidden; }
     .engine-step {
-      grid-template-columns: 32px minmax(0, 28ch);
+      grid-template-columns: 32px minmax(0, 1fr);
     }
     .mode-toggle,
     .form-grid,
     .preview-actions {
       grid-template-columns: 1fr;
+    }
+    .builder,
+    .preview {
+      padding: 1.1rem;
+    }
+    .preview-card,
+    .artist-preview {
+      max-width: 100%;
+      overflow: hidden;
+    }
+    .preview-title {
+      font-size: clamp(2rem, 12vw, 3rem);
+      overflow-wrap: anywhere;
+    }
+    .form-input,
+    .form-textarea,
+    .form-select {
+      min-width: 0;
     }
   }
 </style>
